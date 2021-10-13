@@ -4,10 +4,10 @@
 #include <stdio.h>
 #include <assert.h>
 
+typedef unsigned int uint;
+typedef unsigned long ulong;
 
 
-#include <SDL.h>
-#include <SDL_image.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -27,6 +27,8 @@
 #include <cairo/cairo-ft.h>
 
 #define NUM_EXAMPLES 3
+
+
 
 
 const char *texts[NUM_EXAMPLES] = {
