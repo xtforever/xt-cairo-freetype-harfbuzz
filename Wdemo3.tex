@@ -1,0 +1,229 @@
+\input wbuildmac.tex
+\Class{Wdemo3} this is a very simple demo widget
+
+
+
+\Publicvars
+\Table{Wdemo3}
+XtNlabel&XtCLabel&String &"Hello"\cr
+XtNlang&XtCLang&int &0 \cr
+XtNfontName&XtCFontName&String &"Source Code Pro-42"\cr
+XtNbackground&XtCBackground&Pixel &"Darkgrey"\cr
+XtNforeground&XtCForeground&Pixel &XtDefaultForeground \cr
+\endTable
+\Section
+\Publicvar{XtNlabel}
+the resource {\tt label} tells the widget what to draw, it has no memory management  
+
+
+String  label = {\langle}String{\rangle}"Hello"
+
+\Section
+\Publicvar{XtNlang}
+{\tt lang} can be 0:english,1:arabic,2:chinese, use an approbiate font
+
+
+int  lang = 0 
+
+\Section
+\Publicvar{XtNfontName}
+this font is loaded via fontconfig, also no memory management
+
+
+String  fontName = {\langle}String{\rangle}"Source Code Pro-42"
+
+\Section
+\Publicvar{XtNbackground}
+you can use names from rgb.txt or use #AABBCC for direct 24bit rgb color 
+
+
+Pixel  background = {\langle}String{\rangle}"Darkgrey"
+
+\Section
+\Publicvar{XtNforeground}
+this is the textcolor
+
+
+Pixel  foreground = {\langle}String{\rangle}XtDefaultForeground 
+
+\End\Table{Core}
+XtNx&XtCX&Position &0 \cr
+XtNy&XtCY&Position &0 \cr
+XtNwidth&XtCWidth&Dimension &0 \cr
+XtNheight&XtCHeight&Dimension &0 \cr
+borderWidth&XtCBorderWidth&Dimension &0 \cr
+XtNcolormap&XtCColormap&Colormap &NULL \cr
+XtNdepth&XtCDepth&Int &0 \cr
+destroyCallback&XtCDestroyCallback&XTCallbackList &NULL \cr
+XtNsensitive&XtCSensitive&Boolean &True \cr
+XtNtm&XtCTm&XTTMRec &NULL \cr
+ancestorSensitive&XtCAncestorSensitive&Boolean &False \cr
+accelerators&XtCAccelerators&XTTranslations &NULL \cr
+borderColor&XtCBorderColor&Pixel &0 \cr
+borderPixmap&XtCBorderPixmap&Pixmap &NULL \cr
+background&XtCBackground&Pixel &0 \cr
+backgroundPixmap&XtCBackgroundPixmap&Pixmap &NULL \cr
+mappedWhenManaged&XtCMappedWhenManaged&Boolean &True \cr
+XtNscreen&XtCScreen&Screen *&NULL \cr
+\endTable
+\Imports
+\Section
+\Code
+{\incl} {\langle}assert.h{\rangle}\endCode
+
+
+\Section
+\Code
+{\incl} {\langle}stdint.h{\rangle}\endCode
+
+
+\Section
+\Code
+{\incl} {\langle}X11/Intrinsic.h{\rangle}\endCode
+
+
+\Section
+\Code
+{\incl} {\langle}X11/Xmu/Converters.h{\rangle}\endCode
+
+
+\Section
+\Code
+{\incl} {\langle}X11/Xft/Xft.h{\rangle}\endCode
+
+
+\Section
+\Code
+{\incl} {\langle}X11/Xregion.h{\rangle}\endCode
+
+
+\Section
+\Code
+{\incl} "hb-example.h"\endCode
+
+
+\End\Privatevars
+\Section
+\Code
+Pixmap  pixmap\endCode
+
+
+\Section
+\Code
+XftFont * xftFont\endCode
+
+
+\Section
+\Code
+GC  gc{\underline}bg\endCode
+
+
+\End\Methods
+\Section
+init of parent class is called first by xt.
+  we must init private variables
+  everything else could be done later
+
+
+\Code
+initialize(Widget  request, {\dollar}, ArgList  args, Cardinal * num{\underline}args)
+{\lbrace}
+        {\dollar}pixmap = 0;
+        Display *dpy = XtDisplay({\dollar});
+        {\dollar}xftFont = XftFontOpenName( dpy, DefaultScreen(dpy), {\dollar}fontName );
+        /* xt fills with foreground color - so fg = bg */
+        XGCValues values = {\lbrace} .foreground = {\dollar}background {\rbrace};
+        {\dollar}gc{\underline}bg = XtGetGC({\dollar}, GCForeground, {\ampersand}values);
+{\rbrace}\endCode
+
+
+\Section
+if the pixmap handle is zero the pixmap will be recreated on the next expose event
+  we need to redraw everything if our layout changes 
+
+
+\Code
+resize({\dollar})
+{\lbrace}
+        free{\underline}pixmap({\dollar}); 
+{\rbrace}\endCode
+
+
+\Section
+\Code
+realize({\dollar}, XtValueMask * mask, XSetWindowAttributes * attributes)
+{\lbrace}
+        XtCreateWindow({\dollar}, (unsigned int) InputOutput,
+                          (Visual *) CopyFromParent, *mask, attributes);
+{\rbrace}\endCode
+
+
+\Section
+overwrite the expose method of the parent class
+  this function is called everytime we need to redraw ourself
+
+
+\Code
+expose({\dollar}, XEvent * event, Region  region)
+{\lbrace}
+        if( ! {\dollar}pixmap ) create{\underline}pixmap({\dollar});
+        XCopyArea(XtDisplay({\dollar}),{\dollar}pixmap, XtWindow({\dollar}), {\dollar}gc{\underline}bg,
+              0,0, {\dollar}width, {\dollar}height, /* source pixmap */
+              0,0 ); /* target window x,y */
+{\rbrace}\endCode
+
+
+\Section
+this is not neccessary but nice to have
+  if we calculate our size then the layout can be automatically optimized at runtime
+  this is called geometry management and is performed by special
+  management widgets
+
+
+\Code
+XtGeometryResult  query{\underline}geometry({\dollar}, XtWidgetGeometry * request, XtWidgetGeometry * reply)
+{\lbrace}       
+        int w,h;
+        hb{\underline}measure( XtDisplay({\dollar}), {\dollar}xftFont, {\dollar}lang, {\dollar}label, {\ampersand}w, {\ampersand}h );
+        reply-{\rangle}request{\underline}mode = CWX {\bar} CWY {\bar} CWWidth {\bar} CWHeight;
+            reply-{\rangle}x=0; reply-{\rangle}y=0;
+            reply-{\rangle}width =  w;
+            reply-{\rangle}height = h;
+        return XtGeometryAlmost;
+{\rbrace}\endCode
+
+
+\Section
+\Code
+destroy({\dollar})
+{\lbrace}
+        XtReleaseGC({\dollar},{\dollar}gc{\underline}bg);
+        free{\underline}pixmap({\dollar});
+{\rbrace}\endCode
+
+
+\End\Utilities
+\Section
+\Code
+free{\underline}pixmap({\dollar})
+{\lbrace}
+   if( {\dollar}pixmap ) XFreePixmap(XtDisplay({\dollar}),{\dollar}pixmap);
+   {\dollar}pixmap=0;
+{\rbrace}\endCode
+
+
+\Section
+\Code
+create{\underline}pixmap({\dollar})
+{\lbrace}
+        if( {\dollar}pixmap ) return;
+        Display *dpy = XtDisplay({\dollar});    
+        {\dollar}pixmap = XCreatePixmap(dpy, XtWindow({\dollar}), {\dollar}width, {\dollar}height,
+                        DefaultDepth(dpy, DefaultScreen(dpy)));
+        XFillRectangle(XtDisplay({\dollar}),{\dollar}pixmap, {\dollar}gc{\underline}bg, 0,0,{\dollar}width,{\dollar}height );
+        write{\underline}to{\underline}pixmap( XtDisplay({\dollar}), {\dollar}pixmap, {\dollar}foreground, {\dollar}xftFont, {\dollar}width, {\dollar}height,
+                         {\dollar}lang, {\dollar}label, 0, 0 );
+{\rbrace}\endCode
+
+
+\End\bye

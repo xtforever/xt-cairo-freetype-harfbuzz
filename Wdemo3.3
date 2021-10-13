@@ -1,0 +1,99 @@
+'\" t
+.TH "" 3 "" "Version Unknown To Mankind" "Free Widget Foundation"
+.SH NAME
+Wdemo3
+.SH DESCRIPTION
+ this is a very simple demo widget
+
+
+
+
+.SS "Public variables"
+
+.ps -2
+.TS
+center box;
+cBsss
+lB|lB|lB|lB
+l|l|l|l.
+Wdemo3
+Name	Class	Type	Default
+XtNlabel	XtCLabel	String 	"Hello"
+XtNlang	XtCLang	int 	0 
+XtNfontName	XtCFontName	String 	"Source Code Pro-42"
+XtNbackground	XtCBackground	Pixel 	"Darkgrey"
+XtNforeground	XtCForeground	Pixel 	XtDefaultForeground 
+
+.TE
+.ps +2
+
+
+.TP
+.I "XtNlabel"
+the resource \fIlabel\fP tells the widget what to draw, it has no memory management  
+
+
+
+
+
+.TP
+.I "XtNlang"
+\fIlang\fP can be 0:english,1:arabic,2:chinese, use an approbiate font
+
+
+
+
+
+.TP
+.I "XtNfontName"
+this font is loaded via fontconfig, also no memory management
+
+
+
+
+
+.TP
+.I "XtNbackground"
+you can use names from rgb.txt or use #AABBCC for direct 24bit rgb color 
+
+
+
+
+
+.TP
+.I "XtNforeground"
+this is the textcolor
+
+
+
+
+
+.ps -2
+.TS
+center box;
+cBsss
+lB|lB|lB|lB
+l|l|l|l.
+Core
+Name	Class	Type	Default
+XtNx	XtCX	Position 	0 
+XtNy	XtCY	Position 	0 
+XtNwidth	XtCWidth	Dimension 	0 
+XtNheight	XtCHeight	Dimension 	0 
+borderWidth	XtCBorderWidth	Dimension 	0 
+XtNcolormap	XtCColormap	Colormap 	NULL 
+XtNdepth	XtCDepth	Int 	0 
+destroyCallback	XtCDestroyCallback	XTCallbackList 	NULL 
+XtNsensitive	XtCSensitive	Boolean 	True 
+XtNtm	XtCTm	XTTMRec 	NULL 
+ancestorSensitive	XtCAncestorSensitive	Boolean 	False 
+accelerators	XtCAccelerators	XTTranslations 	NULL 
+borderColor	XtCBorderColor	Pixel 	0 
+borderPixmap	XtCBorderPixmap	Pixmap 	NULL 
+background	XtCBackground	Pixel 	0 
+backgroundPixmap	XtCBackgroundPixmap	Pixmap 	NULL 
+mappedWhenManaged	XtCMappedWhenManaged	Boolean 	True 
+XtNscreen	XtCScreen	Screen *	NULL 
+
+.TE
+.ps +2
