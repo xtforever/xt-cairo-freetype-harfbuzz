@@ -32,6 +32,9 @@
 	/* xt fills with foreground color - so fg = bg */
      	XGCValues values = { .foreground = $background };
      	$gc_bg = XtGetGC($, GCForeground, &values);
+	int w,h;
+	hb_measure(dpy, $xftFont, $lang, $label, &w, &h );
+	$width=w; $height=h;
 }
 
 @ if the pixmap handle is zero the pixmap will be recreated on the next expose event

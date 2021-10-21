@@ -11,7 +11,7 @@
 #include <X11/Xft/Xft.h>
 #include <X11/StringDefs.h>
 #include <X11/Intrinsic.h>
-#include <X11/Xaw/Box.h>
+#include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
 #include <X11/Xmu/Editres.h>
 #include <X11/Shell.h>
@@ -24,7 +24,7 @@ XtAppContext app_con;
 
 int main(int argc, char **argv)
 {
-    Widget box2;
+    Widget box2, w;
     setlocale(LC_ALL, "" );
     XawInitializeWidgetSet();  
     toplevel = XtOpenApplication(&app_con, "xtpure",
@@ -34,32 +34,33 @@ int main(int argc, char **argv)
 				 sessionShellWidgetClass,
 				 NULL, 0 );
     XtAddEventHandler(toplevel, (EventMask) 0, True, _XEditResCheckMessages, NULL);
-    box2 = XtVaCreateManagedWidget("main",boxWidgetClass, toplevel, 
-				   XtNorientation, XtorientVertical,
+    box2 = XtVaCreateManagedWidget("main",formWidgetClass, toplevel, 
+				   // XtNorientation, XtorientVertical,
 				   NULL );
   
-    XtVaCreateManagedWidget("demo0", wdemo3WidgetClass,box2,
+    w=XtVaCreateManagedWidget("demo0", wdemo3WidgetClass,box2,
 			    XtNfontName, "Noto Serif-40",
 			    XtNlang, 0,
 			    XtNlabel, "Hello World of legacy",			    
-			    XtNwidth, 800,
-			    XtNheight, 100,
+			    
 			    NULL );
-    XtVaCreateManagedWidget("demo1", wdemo3WidgetClass,box2,
-			    XtNfontName, "Noto Sans Arabic-20",
-			    XtNlang, 1,
-			    XtNlabel,     "هذه بعض النصوص العربية",
-			    XtNwidth, 800,
-			    XtNheight, 100,
-			    NULL );
+    w=XtVaCreateManagedWidget("demo1", wdemo3WidgetClass,box2,
+			      XtNfontName, "Noto Sans Arabic-20",
+			      XtNlang, 1,
+			      XtNlabel,     "هذه بعض النصوص العربية",
+			      XtNfromVert, w,
+			      XtNresizable, TRUE,
+			      XtNright, XawChainRight,
+			      NULL );
 
-    XtVaCreateManagedWidget("demo2", wdemo3WidgetClass,box2,
-			    XtNfontName, "Noto Serif CJK SC-32",
-			    XtNlang, 2,
-			    XtNlabel, "這是一些中",
-			    XtNwidth, 800,
-			    XtNheight, 200,
-			    NULL );
+    w=XtVaCreateManagedWidget("demo2", wdemo3WidgetClass,box2,
+			      XtNfontName, "Noto Serif CJK SC-32",
+			      XtNlang, 2,
+			      XtNlabel, "這是一些中",
+			      XtNfromVert, w,
+			      XtNresizable, TRUE,
+			      XtNright, XawChainRight,
+			      NULL );
       
     XtRealizeWidget(toplevel);
     XtAppMainLoop(app_con);

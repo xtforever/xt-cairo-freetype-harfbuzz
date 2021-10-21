@@ -153,7 +153,7 @@ int write_to_pixmap( Display *dpy, Pixmap p,  Pixel foreground, XftFont *font, i
     }   /* right justify */
     if (id_lang == CHINESE) {
 	x = width/2 - string_width_in_pixels/2 + x0;
-	y = y0;
+	y = y0 ;
     }   /* center */
 
     for (int i=0; i < glyph_count; ++i) {
