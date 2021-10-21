@@ -11,11 +11,13 @@
 #include <X11/Xft/Xft.h>
 #include <X11/StringDefs.h>
 #include <X11/Intrinsic.h>
-#include "Wdemo3.h"
 #include <X11/Xaw/Box.h>
 #include <X11/Xaw/Label.h>
 #include <X11/Xmu/Editres.h>
 #include <X11/Shell.h>
+
+#include "xtcw/Wdemo3.h"
+
 
 Widget toplevel;
 XtAppContext app_con;
