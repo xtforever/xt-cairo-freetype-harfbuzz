@@ -80,6 +80,7 @@ void cairo_set_source_rgb_from_pixel_dpy(Display *dpy, cairo_t *c, Pixel px)
 
 int write_to_pixmap( Display *dpy, Pixmap p,  Pixel foreground, XftFont *font, int width, int height, int id_lang, char *txt, int x0, int y0 )
 {
+
     int x = 0;
     int y = 0;
     // https://lists.cairographics.org/archives/cairo/2014-June/025275.html    
@@ -98,7 +99,7 @@ int write_to_pixmap( Display *dpy, Pixmap p,  Pixel foreground, XftFont *font, i
     FcPatternGetDouble( pat, FC_SIZE, 0, &font_size );
     FcPatternGetDouble( pat, FC_DPI, 0, &font_dpi );
 
-    // printf( "pixel:%lf font:%lf dpi:%lf\n", pixel_size, font_size, font_dpi );
+
     
     FT_Set_Char_Size(face,font_size *64,
 		     font_size *64,
@@ -189,13 +190,18 @@ int hb_measure( Display *dpy, XftFont *font, int id_lang, char *txt, int *w, int
     FT_Library ft_library;
     assert(!FT_Init_FreeType(&ft_library));
 
-    double font_size;
+    double font_size, font_dpi;
     FcPattern *pat = font->pattern;
     FcPatternGetDouble( pat, FC_SIZE, 0, &font_size ); 
+    FcPatternGetDouble( pat, FC_DPI, 0, &font_dpi );
     
     /* Get our cairo font structs */
     FT_Face face = XftLockFace ( font );
-    FT_Set_Char_Size( face, font_size * 64, font_size * 64, 0, 0);
+    FT_Set_Char_Size(face,font_size *64,
+		     font_size *64,
+		     font_dpi, font_dpi);
+
+    printf( "font:%lf dpi:%lf\n", font_size, font_dpi );
 
     /* Get our harfbuzz font/face structs */
     hb_font_t *hb_ft_font;

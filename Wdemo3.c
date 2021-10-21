@@ -3,19 +3,19 @@
  */
 #include <X11/IntrinsicP.h>
 #include <X11/StringDefs.h>
-#line 102 "Wdemo3.widget"
-#include <assert.h>
-#line 103 "Wdemo3.widget"
-#include <stdint.h>
-#line 104 "Wdemo3.widget"
-#include <X11/Intrinsic.h>
 #line 105 "Wdemo3.widget"
-#include <X11/Xmu/Converters.h>
+#include <assert.h>
 #line 106 "Wdemo3.widget"
-#include <X11/Xft/Xft.h>
+#include <stdint.h>
 #line 107 "Wdemo3.widget"
-#include <X11/Xregion.h>
+#include <X11/Intrinsic.h>
 #line 108 "Wdemo3.widget"
+#include <X11/Xmu/Converters.h>
+#line 109 "Wdemo3.widget"
+#include <X11/Xft/Xft.h>
+#line 110 "Wdemo3.widget"
+#include <X11/Xregion.h>
+#line 111 "Wdemo3.widget"
 #include "hb-example.h"
 #include <xtcw/Wdemo3P.h>
 static void _resolve_inheritance(
@@ -29,72 +29,72 @@ static void initialize(
 Widget ,Widget,ArgList ,Cardinal *
 #endif
 );
-#line 39 "Wdemo3.widget"
+#line 42 "Wdemo3.widget"
 static void resize(
 #if NeedFunctionPrototypes
 Widget
 #endif
 );
-#line 44 "Wdemo3.widget"
+#line 47 "Wdemo3.widget"
 static void realize(
 #if NeedFunctionPrototypes
 Widget,XtValueMask *,XSetWindowAttributes *
 #endif
 );
-#line 52 "Wdemo3.widget"
+#line 55 "Wdemo3.widget"
 static void expose(
 #if NeedFunctionPrototypes
 Widget,XEvent *,Region 
 #endif
 );
-#line 64 "Wdemo3.widget"
+#line 67 "Wdemo3.widget"
 static XtGeometryResult  query_geometry(
 #if NeedFunctionPrototypes
 Widget,XtWidgetGeometry *,XtWidgetGeometry *
 #endif
 );
-#line 75 "Wdemo3.widget"
+#line 78 "Wdemo3.widget"
 static void destroy(
 #if NeedFunctionPrototypes
 Widget
 #endif
 );
-#line 83 "Wdemo3.widget"
+#line 86 "Wdemo3.widget"
 static void free_pixmap(
 #if NeedFunctionPrototypes
 Widget
 #endif
 );
-#line 89 "Wdemo3.widget"
+#line 92 "Wdemo3.widget"
 static void create_pixmap(
 #if NeedFunctionPrototypes
 Widget
 #endif
 );
-#line 83 "Wdemo3.widget"
+#line 86 "Wdemo3.widget"
 /*ARGSUSED*/
 #if NeedFunctionPrototypes
-#line 83 "Wdemo3.widget"
+#line 86 "Wdemo3.widget"
 static void free_pixmap(Widget self)
 #else
-#line 83 "Wdemo3.widget"
+#line 86 "Wdemo3.widget"
 static void free_pixmap(self)Widget self;
 #endif
-#line 84 "Wdemo3.widget"
+#line 87 "Wdemo3.widget"
 {
    if( ((Wdemo3Widget)self)->wdemo3.pixmap ) XFreePixmap(XtDisplay(self),((Wdemo3Widget)self)->wdemo3.pixmap);
    ((Wdemo3Widget)self)->wdemo3.pixmap=0;
 }
-#line 89 "Wdemo3.widget"
+#line 92 "Wdemo3.widget"
 /*ARGSUSED*/
 #if NeedFunctionPrototypes
-#line 89 "Wdemo3.widget"
+#line 92 "Wdemo3.widget"
 static void create_pixmap(Widget self)
 #else
-#line 89 "Wdemo3.widget"
+#line 92 "Wdemo3.widget"
 static void create_pixmap(self)Widget self;
 #endif
-#line 90 "Wdemo3.widget"
+#line 93 "Wdemo3.widget"
 {
     	if( ((Wdemo3Widget)self)->wdemo3.pixmap ) return;
     	Display *dpy = XtDisplay(self);	
@@ -183,60 +183,63 @@ static void initialize(request,self,args,num_args)Widget  request;Widget self;Ar
 	/* xt fills with foreground color - so fg = bg */
      	XGCValues values = { .foreground = ((Wdemo3Widget)self)->wdemo3.background };
      	((Wdemo3Widget)self)->wdemo3.gc_bg = XtGetGC(self, GCForeground, &values);
+	int w,h;
+	hb_measure( XtDisplay(self), ((Wdemo3Widget)self)->wdemo3.xftFont, ((Wdemo3Widget)self)->wdemo3.lang, ((Wdemo3Widget)self)->wdemo3.label, &w, &h );
+	((Wdemo3Widget)self)->core.width=w; ((Wdemo3Widget)self)->core.height=h;
 }
-#line 39 "Wdemo3.widget"
+#line 42 "Wdemo3.widget"
 /*ARGSUSED*/
 #if NeedFunctionPrototypes
-#line 39 "Wdemo3.widget"
+#line 42 "Wdemo3.widget"
 static void resize(Widget self)
 #else
-#line 39 "Wdemo3.widget"
+#line 42 "Wdemo3.widget"
 static void resize(self)Widget self;
 #endif
-#line 40 "Wdemo3.widget"
+#line 43 "Wdemo3.widget"
 {
 	free_pixmap(self); 
 }
-#line 44 "Wdemo3.widget"
+#line 47 "Wdemo3.widget"
 /*ARGSUSED*/
 #if NeedFunctionPrototypes
-#line 44 "Wdemo3.widget"
+#line 47 "Wdemo3.widget"
 static void realize(Widget self,XtValueMask * mask,XSetWindowAttributes * attributes)
 #else
-#line 44 "Wdemo3.widget"
+#line 47 "Wdemo3.widget"
 static void realize(self,mask,attributes)Widget self;XtValueMask * mask;XSetWindowAttributes * attributes;
 #endif
-#line 45 "Wdemo3.widget"
+#line 48 "Wdemo3.widget"
 {
         XtCreateWindow(self, (unsigned int) InputOutput,
         		  (Visual *) CopyFromParent, *mask, attributes);
 }
-#line 52 "Wdemo3.widget"
+#line 55 "Wdemo3.widget"
 /*ARGSUSED*/
 #if NeedFunctionPrototypes
-#line 52 "Wdemo3.widget"
+#line 55 "Wdemo3.widget"
 static void expose(Widget self,XEvent * event,Region  region)
 #else
-#line 52 "Wdemo3.widget"
+#line 55 "Wdemo3.widget"
 static void expose(self,event,region)Widget self;XEvent * event;Region  region;
 #endif
-#line 53 "Wdemo3.widget"
+#line 56 "Wdemo3.widget"
 {
 	if( ! ((Wdemo3Widget)self)->wdemo3.pixmap ) create_pixmap(self);
 	XCopyArea(XtDisplay(self),((Wdemo3Widget)self)->wdemo3.pixmap, XtWindow(self), ((Wdemo3Widget)self)->wdemo3.gc_bg,
               0,0, ((Wdemo3Widget)self)->core.width, ((Wdemo3Widget)self)->core.height, /* source pixmap */
               0,0 ); /* target window x,y */
 }
-#line 64 "Wdemo3.widget"
+#line 67 "Wdemo3.widget"
 /*ARGSUSED*/
 #if NeedFunctionPrototypes
-#line 64 "Wdemo3.widget"
+#line 67 "Wdemo3.widget"
 static XtGeometryResult  query_geometry(Widget self,XtWidgetGeometry * request,XtWidgetGeometry * reply)
 #else
-#line 64 "Wdemo3.widget"
+#line 67 "Wdemo3.widget"
 static XtGeometryResult  query_geometry(self,request,reply)Widget self;XtWidgetGeometry * request;XtWidgetGeometry * reply;
 #endif
-#line 65 "Wdemo3.widget"
+#line 68 "Wdemo3.widget"
 {	
 	int w,h;
 	hb_measure( XtDisplay(self), ((Wdemo3Widget)self)->wdemo3.xftFont, ((Wdemo3Widget)self)->wdemo3.lang, ((Wdemo3Widget)self)->wdemo3.label, &w, &h );
@@ -246,16 +249,16 @@ static XtGeometryResult  query_geometry(self,request,reply)Widget self;XtWidgetG
     	    reply->height = h;
 	return XtGeometryAlmost;
 }
-#line 75 "Wdemo3.widget"
+#line 78 "Wdemo3.widget"
 /*ARGSUSED*/
 #if NeedFunctionPrototypes
-#line 75 "Wdemo3.widget"
+#line 78 "Wdemo3.widget"
 static void destroy(Widget self)
 #else
-#line 75 "Wdemo3.widget"
+#line 78 "Wdemo3.widget"
 static void destroy(self)Widget self;
 #endif
-#line 76 "Wdemo3.widget"
+#line 79 "Wdemo3.widget"
 {
 	XtReleaseGC(self,((Wdemo3Widget)self)->wdemo3.gc_bg);
 	free_pixmap(self);
